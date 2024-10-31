@@ -15,6 +15,8 @@ def log(info):
     print(f"{clock()} ..: " + info)
 
 def is_socket_connected(sock: skt.socket):
+    if sock.fileno() <= 0:
+        return False
     try:
         sock.setblocking(False)
         data = sock.recv(1, skt.MSG_PEEK)

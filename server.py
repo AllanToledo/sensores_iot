@@ -23,6 +23,8 @@ def register_log(e: Exception):
         file.write(f"{clock()} ..: " + str(e) + "\n")
 
 def is_socket_connected(sock: skt.socket):
+    if sock.fileno() <= 0:
+        return False
     try:
         sock.setblocking(False)
         data = sock.recv(1, skt.MSG_PEEK)
@@ -34,19 +36,6 @@ def is_socket_connected(sock: skt.socket):
         return False
     finally:
         sock.setblocking(True)
-
-class Safe:
-    def __init__(self):
-        self.lock = False
-
-    def getLock(self):
-        while self.lock:
-            pass
-        self.lock = True
-
-    def unlock(self):
-        self.lock = False
-
 
 lock = Lock()
 clients_sockets: list[skt.socket] = []

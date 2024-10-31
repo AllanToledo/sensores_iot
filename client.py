@@ -13,6 +13,8 @@ def log(info):
     print(f"{clock()} ..: " + info)
 
 def is_socket_connected(sock: socket.socket):
+    if sock.fileno() <= 0:
+        return False
     try:
         sock.setblocking(False)
         data = sock.recv(1, socket.MSG_PEEK)
@@ -64,6 +66,4 @@ if __name__ == "__main__":
         log("Não foi possível conectar no servidor.")
     except ConnectionRefusedError as e:
         log("Servidor está offline.")
-    finally:
-        client_socket.close()
 
